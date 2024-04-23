@@ -1,0 +1,252 @@
+.container {
+  background: linear-gradient(to top, #c9d6ff, #99bddf);
+  width: 100%;
+  height: 590px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 8%;
+  margin-top: 80px;
+}
+.container .row {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1100px;
+}
+.row section.col {
+  display: flex;
+  flex-direction: column;
+}
+.row section.left {
+  flex-basis: 35%;
+  min-width: 320px;
+  margin-right: 60px;
+}
+.row section.right {
+  flex-basis: 60%;
+}
+section.left .contactTitle h2 {
+  position: relative;
+  font-size: 28px;
+  color: #fff;
+  display: inline-block;
+  margin-bottom: 25px;
+}
+section.left .contactTitle h2::before {
+  content: "";
+  position: absolute;
+  width: 50%;
+  height: 1px;
+  background-color: #888;
+  top: 120%;
+  left: 0;
+}
+section.left .contactTitle h2::after {
+  content: "";
+  position: absolute;
+  width: 25%;
+  height: 3px;
+  background-color: #c9d6ff;
+  top: calc(120% - 1px);
+  left: 0;
+}
+section.left .contactTitle p {
+  font-size: 17px;
+  color: #fff;
+  letter-spacing: 1px;
+  line-height: 1.2;
+  padding-bottom: 22px;
+}
+section.left .contactInfo {
+  margin-bottom: 16px;
+}
+.contactInfo .iconGroup {
+  display: flex;
+  align-items: center;
+  margin: 25px 0px;
+}
+.iconGroup .icon {
+  width: 45px;
+  height: 45px;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  margin-right: 20px;
+  position: relative;
+}
+.iconGroup .icon i {
+  font-size: 20px;
+  color: #ffffff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.iconGroup .details span {
+  display: block;
+  color: #ffffff;
+  font-size: 18px;
+}
+.iconGroup .details span:nth-child(1) {
+  text-transform: uppercase;
+  color: #ffffff;
+}
+section.left .socialMedia {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 22px 0px 20px;
+}
+.socialMedia a {
+  width: 35px;
+  height: 35px;
+  text-decoration: none;
+  text-align: center;
+  margin-right: 15px;
+  border-radius: 5px;
+  background-color: #ffffff;
+  transition: 0.4s;
+}
+.socialMedia a i {
+  color: #99bddf;
+  font-size: 18px;
+  line-height: 35px;
+  border: 1px solid transparent;
+  transition-delay: 0.4s;
+}
+.socialMedia a:hover {
+  transform: translateY(-5px);
+  background-color: #31414f;
+  color: #ffffff;
+  border: 1px solid #ffffff;
+}
+.socialMedia a:hover i {
+  color: #ffffff;
+}
+
+/* Code for the right section (column) */
+
+.row section.right .messageForm {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding-top: 30px;
+}
+.row section.right .inputGroup {
+  margin: 18px 0px;
+  position: relative;
+}
+.messageForm .halfWidth {
+  flex-basis: 48%;
+}
+.messageForm .fullWidth {
+  flex-basis: 100%;
+}
+.messageForm input,
+.messageForm textarea {
+  width: 100%;
+  font-size: 18px;
+  padding: 2px 0px;
+  background-color: #ffffff;
+  color: #ddd;
+  border: none;
+  border-bottom: 2px solid #ccc;
+  border-radius: 10px;
+  outline: none;
+}
+.messageForm textarea {
+  resize: none;
+  height: 220px;
+  display: block;
+}
+textarea::-webkit-scrollbar {
+  width: 5px;
+}
+textarea::-webkit-scrollbar-track {
+  background-color: #1e1e1e;
+  border-radius: 15px;
+}
+textarea::-webkit-scrollbar-thumb {
+  background-color: #99bddf;
+  border-radius: 15px;
+}
+.inputGroup label {
+  position: absolute;
+  left: 0;
+  bottom: 4px;
+  color: #888;
+  font-size: 14px;
+  transition: 0.4s;
+  pointer-events: none;
+}
+.inputGroup:nth-child(4) label {
+  top: 2px;
+}
+.inputGroup input:focus ~ label,
+.inputGroup textarea:focus ~ label,
+.inputGroup input:valid ~ label,
+.inputGroup textarea:valid ~ label {
+  transform: translateY(-30px);
+  font-size: 16px;
+}
+.inputGroup button {
+  padding: 8px 16px;
+  font-size: 18px;
+  background-color: #fff;
+  color: #99bddf;
+  border: 1px solid transparent;
+  border-radius: 25px;
+  outline: none;
+  cursor: pointer;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
+  transition: 0.4s;
+}
+.inputGroup button:hover {
+  background-color: #c9d6ff;
+  color: #fff;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+  border: 1px solid #c9d6ff;
+}
+@media (max-width: 1100px) {
+  .messageForm .halfWidth {
+    flex-basis: 100%;
+  }
+}
+@media (max-width: 900px) {
+  .container .row {
+    flex-wrap: wrap;
+  }
+  .row section.left,
+  .row section.right {
+    flex-basis: 100%;
+    margin: 0px;
+  }
+}
+
+.socialMedia a .fa-facebook-f {
+  left: 26.4rem;
+  margin-top: 8px;
+}
+
+.socialMedia a .fa-twitter {
+  left: 29.4rem;
+  margin-top: 8px;
+}
+
+.socialMedia a .fa-instagram {
+  left: 32.4rem;
+  margin-top: 8px;
+}
+
+.socialMedia a .fa-linkedin-in {
+  left: 26.4rem;
+  margin-top: 8px;
+}
+
+.iconGroup .icon .fa-envelope,
+.iconGroup .icon .fa-phone,
+.iconGroup .icon .map-icon {
+  margin-left: 0.8rem;
+  margin-top: 10px;
+}

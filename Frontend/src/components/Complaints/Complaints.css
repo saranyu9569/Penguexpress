@@ -1,0 +1,88 @@
+.Complaints-container {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  padding-top: 25px;
+  margin-top: 50px;
+  margin-left: 300px;
+  margin-right: 300px;
+  margin-bottom: 50px;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 5px 15px #dddddd;
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  max-width: 100%;
+  min-height: 700px;
+}
+
+.Complaints-container button {
+  background-color: #99bddf;
+  color: #fff;
+  font-size: 12px;
+  padding: 13px 60px;
+  border: 1px solid transparent;
+  border-radius: 30px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-top: 15px;
+  cursor: pointer;
+}
+
+.Complaints-container button:hover {
+  background-color: #82a5c5;
+  transition: 0.4s ease-in-out;
+}
+
+.Complaints-container form {
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 40px;
+  height: 100%;
+}
+
+.Complaints-container span {
+  margin-top: 20px;
+  color: #31414f;
+  font-size: 14px;
+}
+
+.enterdata input {
+  background-color: #eee;
+  border: none;
+  margin: 8px 0;
+  padding: 10px 15px;
+  font-size: 13px;
+  border-radius: 8px;
+  width: 650px;
+  outline: none;
+}
+
+.enterdata select {
+  background-color: #eee;
+  border: none;
+  margin: 8px 0;
+  padding: 10px 15px;
+  font-size: 13px;
+  border-radius: 8px;
+  width: 650px;
+  outline: none;
+}
+
+.enterdata2 input {
+    background-color: #eee;
+    border: none;
+    margin: 8px 0;
+    padding: 10px 15px;
+    font-size: 13px;
+    border-radius: 8px;
+    width: 650px;
+    height: 50px;
+    outline: none;
+    resize: vertical;
+  }

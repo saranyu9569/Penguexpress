@@ -1,0 +1,83 @@
+.Create-container {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  padding-top: 25px;
+  margin-top: 50px;
+  margin-left: 300px !important;
+  margin-right: 300px;
+  margin-bottom: 50px;
+  background-color:white;
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+  height: 20%;
+  max-width: 80rem;
+  min-height: 800px;
+  margin-left: 20rem !important;
+  box-shadow: 0 5px 15px #dddddd;
+}
+
+.Create-container button {
+  background-color: #99bddf;
+  color: #fff;
+  font-size: 12px;
+  padding: 13px 60px;
+  border: 1px solid transparent;
+  border-radius: 30px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-top: 25px;
+  cursor: pointer;
+}
+
+.Create-container button:hover {
+  background-color: #82a5c5;
+  transition: 0.4s ease-in-out;
+}
+
+.Create-container form {
+  background-color: #fff;
+  box-shadow: 0 5px 15px #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 10px;
+  height: 60rem;
+  width: 80rem;
+  border-radius: 5rem;
+  margin-left: 1rem;
+  width: 70rem;
+  height: 2rem;
+  margin-top: 20.5rem;
+}
+
+.Create-container span {
+  margin-top: 20px;
+  color: #31414f;
+  font-size: 14px;
+}
+
+.enterdata input {
+  background-color: #eee;
+  border: none;
+  margin: 8px 0;
+  padding: 10px 15px;
+  font-size: 13px;
+  border-radius: 8px;
+  width: 650px;
+  outline: none;
+}
+
+.enterdata select {
+  background-color: #eee;
+  border: none;
+  margin: 8px 0;
+  padding: 10px 15px;
+  font-size: 13px;
+  border-radius: 8px;
+  width: 650px;
+  outline: none;
+}
