@@ -1,7 +1,7 @@
 import React from "react";
 import { Navbar } from "../index";
 import "./CreateShipment.css";
-import axios from 'axios'
+import axios from "axios";
 
 class CreateShipment extends React.Component {
   constructor(props) {
@@ -10,18 +10,25 @@ class CreateShipment extends React.Component {
       recipientName: "",
       mobileNumber: "",
       addressDetails: "",
-      province: "BKK", 
-      itemType: "fruits", 
+      province: "BKK",
+      itemType: "fruits",
       weight: "",
     };
   }
 
   handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     // Destructure state variables for easier access
-    const { recipientName, mobileNumber, addressDetails, province, itemType, weight } = this.state;
-  
+    const {
+      recipientName,
+      mobileNumber,
+      addressDetails,
+      province,
+      itemType,
+      weight,
+    } = this.state;
+
     // Create formData object
     const formData = {
       recipientName,
@@ -29,27 +36,24 @@ class CreateShipment extends React.Component {
       addressDetails,
       province,
       itemType,
-      weight
+      weight,
     };
 
-    function Calculate(){
+    function Calculate() {
+      //weight
 
-      //weight 
-
-      return 
+      return;
     }
-  
+
     try {
-      // Make a POST request to the backend endpoint
-      const response = await axios.post("http://localhost:3333/CreateShipment", formData);
-      
-      // Handle response
+      const response = await axios.post(
+        "http://localhost:3333/CreateShipment",
+        formData
+      );
+
       console.log("Response:", response.data);
-      // Optionally, you can perform any action based on the response, such as showing a success message or redirecting the user
     } catch (error) {
-      // Handle error
       console.error("Error:", error);
-      // Optionally, you can show an error message to the user
     }
   };
   handleChange = (e) => {
@@ -60,127 +64,95 @@ class CreateShipment extends React.Component {
     this.setState({ [e.target.id]: e.target.value });
   };
 
-  
-
   render() {
     return (
       <>
         <Navbar />
-        <div className="Create-container">
-          <div className="form-container">
+        <div class="Create-container" id="container">
+          <div class="Create-form-container">
             <form>
               <h1>Create Shipment</h1>
-              <span>Enter shipment information to create a shipment</span>
+              <span>enter shipments information for creat shipment</span>
               <br />
-              <div className="form-group-row">
-                <label
-                  htmlFor="recipientName"
-                  className="col-sm-4 col-form-label"
-                >
-                  <span className="lb_IDCard">Recipient name</span>
+              <div class="form-group row">
+                <label for="" class="col-sm-4 col-form-label">
+                  <span class="lb_IDCard">Recipient name</span>
                 </label>
-                <div className="enterdata">
+                <div class="enterdata">
                   <input
-                    type="text"
-                    id="recipientName"
+                    type="Recipient name"
                     placeholder="Enter recipient name"
-                    value={this.state.recipientName}
-                    onChange={this.handleChange}
                   />
                 </div>
               </div>
-              <div className="form-group-row">
-                <label
-                  htmlFor="mobileNumber"
-                  className="col-sm-4 col-form-label"
-                >
-                  <span className="lb_IDCard">Mobile number</span>
+              <div class="form-group row">
+                <label for="" class="col-sm-4 col-form-label">
+                  <span class="lb_IDCard">Mobile number</span>
                 </label>
-                <div className="enterdata">
+                <div class="enterdata">
                   <input
-                    type="tel"
-                    id="mobileNumber"
-                    placeholder="Enter Mobile number"
-                    value={this.state.mobileNumber}
-                    onChange={this.handleChange}
+                    type="Mobile number"
+                    placeholder="Enter recipient mobile number"
                   />
                 </div>
               </div>
-              <div className="form-group-row">
-                <label
-                  htmlFor="addressDetails"
-                  className="col-sm-4 col-form-label"
-                >
-                  <span className="lb_IDCard">Address details</span>
+              <div class="form-group row">
+                <label for="" class="col-sm-4 col-form-label">
+                  <span class="lb_IDCard">Address details</span>
                 </label>
-                <div className="enterdata">
+                <div class="enterdata">
                   <input
-                    type="text"
-                    id="addressDetails"
+                    type="Address details"
                     placeholder="Enter address details"
-                    value={this.state.addressDetails}
-                    onChange={this.handleChange}
                   />
                 </div>
               </div>
-              <div className="form-group-row">
-                <label htmlFor="province" className="col-sm-4 col-form-label">
-                  <span className="lb_IDCard">
+              <div class="form-group row">
+                <label for="" class="col-sm-4 col-form-label">
+                  <span class="lb_IDCard">
                     Provinces/District/Sub-district/zip code
                   </span>
                 </label>
-                <div className="enterdata">
-                  <select
-                    id="province"
-                    value={this.state.province}
-                    onChange={this.handleSelectorChange}
-                  >
-                    <option value="BKK">BKK</option>
-                    <option value="SamutPrakarn">Samut Prakarn</option>
+                <div class="enterdata">
+                  <select id="selector">
+                    <option value="0">BKK</option>
+                    <option value="1">Samut prakarn</option>
                   </select>
                 </div>
               </div>
-              <div className="form-group-row">
-                <label htmlFor="itemType" className="col-sm-4 col-form-label">
-                  <span className="lb_IDCard">Item Type</span>{" "}
-                  <span className="required">*</span>
+              <div class="form-group row">
+                <label for="" class="col-sm-4 col-form-label">
+                  <span class="lb_IDCard">Item Type </span>{" "}
+                  <span class="required">*</span>
                 </label>
-                <div className="enterdata">
-                  <select
-                    id="itemType"
-                    value={this.state.itemType}
-                    onChange={this.handleSelectorChange}
-                  >
-                    <option value="fruits">Fruits</option>
-                    <option value="babyProducts">Baby Products</option>
-                    <option value="clothingAccessories">
-                      Clothing Accessories
-                    </option>
-                    <option value="cosmeticBeauty">Cosmetic/Beauty</option>
-                    <option value="freshFood">Fresh Food</option>
-                    <option value="handTools">Hand Tools</option>
-                    <option value="health">Health</option>
-                    <option value="kitchenware">Kitchenware</option>
-                    <option value="tree">Tree</option>
-                    <option value="others">Others</option>
+                <div class="enterdata">
+                  <select id="selector">
+                    <option value="0">fruits</option>
+                    <option value="1">baby products</option>
+                    <option value="2">clothing accessories</option>
+                    <option value="3">cosmetic/beauty</option>
+                    <option value="4">fresh food</option>
+                    <option value="5">hand tools</option>
+                    <option value="6">health</option>
+                    <option value="7">kitchenware</option>
+                    <option value="8">tree</option>
+                    <option value="9">others</option>
                   </select>
                 </div>
               </div>
-              <div className="form-group-row">
-                <label htmlFor="weight" className="col-sm-4 col-form-label">
-                  <span className="lb_IDCard">Weight (kg)</span>
+              <br />
+              <div class="form-group row">
+                <label for="" class="col-sm-4 col-form-label">
+                  <span class="lb_IDCard">Weight (kg)</span>
                 </label>
-                <div className="enterdata">
+                <div class="enterdata">
                   <input
-                    type="number"
-                    id="weight"
-                    placeholder="Enter weight in kg"
-                    value={this.state.weight}
-                    onChange={this.handleChange}
+                    type="Address details"
+                    placeholder="Enter address details"
                   />
                 </div>
               </div>
-              <button type="submit" onClick={this.handleSubmit}>Submit</button>
+              <button>submit</button>
             </form>
           </div>
         </div>

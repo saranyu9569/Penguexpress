@@ -13,7 +13,7 @@
   position: relative;
   overflow: hidden;
   height: 50rem !important;
-  width: 80rem;
+  width: 50rem;
   max-width: 100%;
   transition: opacity 0.3s ease-in-out;
 }
@@ -256,4 +256,5 @@
 
 .Claim-form-container h1 {
   color: black;
+  font-size: 40px;
 }
