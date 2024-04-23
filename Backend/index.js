@@ -56,33 +56,33 @@ app.post("/register", jsonParser, function (req, res, next) {
 });
 
 app.post("/CreateShipment", jsonParser, function (req, res, next) {
-    connection.execute(
-      "INSERT INTO customer(customer_tel, customer_address, customer_name, member_status) VALUES(?,?,?,?)",
-      [
-        req.body.member_tel,
-        req.body.member_addrs,
-        req.body.member_name,
-        req.body.member_status,
-      ],
-      function (err, results, fields) {
-        if (err) {
-          res.json({ status: "error", message: err });
-          return;
-        }
-        res.json({ status: "OK" });
+  connection.execute(
+    "INSERT INTO customer(customer_tel, customer_address, customer_name, member_status) VALUES(?,?,?,?)",
+    [
+      req.body.member_tel,
+      req.body.member_addrs,
+      req.body.member_name,
+      req.body.member_status,
+    ],
+    function (err, results, fields) {
+      if (err) {
+        res.json({ status: "error", message: err });
+        return;
       }
-    );
-    connection.execute(
-      "INSERT INTO member(member_pass,member_tel) VALUES(?,?)",
-      [hash, req.body.member_tel],
-      function (err, results, fields) {
-        if (err) {
-          res.json({ status: "error", message: err });
-          return;
-        }
+      res.json({ status: "OK" });
+    }
+  );
+  connection.execute(
+    "INSERT INTO member(member_pass,member_tel) VALUES(?,?)",
+    [hash, req.body.member_tel],
+    function (err, results, fields) {
+      if (err) {
+        res.json({ status: "error", message: err });
+        return;
       }
-    );
-  });
+    }
+  );
+});
 
 app.post("/login", jsonParser, function (req, res, next) {
   connection.execute(
@@ -105,7 +105,12 @@ app.post("/login", jsonParser, function (req, res, next) {
             var token = jwt.sign({ member_tel: users[0].member_tel }, secret, {
               expiresIn: "1h",
             });
-            res.json({ status: "ok", message: "Login Success", token, userName: users[0].customer_name });
+            res.json({
+              status: "ok",
+              message: "Login Success",
+              token,
+              userName: users[0].customer_name,
+            });
           } else {
             res.json({ status: "error", message: "Login Failed" });
           }
@@ -114,8 +119,6 @@ app.post("/login", jsonParser, function (req, res, next) {
     }
   );
 });
-
-
 
 //Verify Token
 app.post("/authen", jsonParser, function (req, res, next) {
@@ -136,7 +139,11 @@ app.post("/authen", jsonParser, function (req, res, next) {
           return;
         }
         // User found, send the user information along with decoded token
-        res.json({ status: "ok", decoded, customer_name: results[0].customer_name });
+        res.json({
+          status: "ok",
+          decoded,
+          customer_name: results[0].customer_name,
+        });
       }
     );
   } catch (err) {
@@ -144,7 +151,15 @@ app.post("/authen", jsonParser, function (req, res, next) {
   }
 });
 
-
+app.get("/Shipping", (req, res) => {
+  connection.query("SELECT name_th, code FROM provinces", (error, results, fields) => {
+    if (error) {
+      res.status(500).json({ status: "error", message: error.message });
+      return;
+    }
+    res.json({ status: "ok", provinces: results });
+  });
+});
 
 app.listen(3333, function () {
   console.log("CORS-enabled web server listening on port 3333");
