@@ -1,105 +1,134 @@
-import React from "react";
+import React, { useState } from "react";
 import { Navbar } from "../index";
+import arrow from "./arrow-circle.svg";
 import "./Tracking.css";
 
 function ShippingForm() {
+  const [searched, setSearched] = useState(false);
+
+  const handleSearch = () => {
+    setSearched(true);
+  };
+
   return (
-    <>
+    <div>
       <Navbar />
       <div className="Tracking-container" id="container">
-        <div className="Tracking-form-container">
-          <form>
-            <h1>Shipping Rates</h1>
-            <span>estimate your parcel delivery fee</span>
-            <br />
-            <br />
-            <div className="group">
-              <div className="form-group row">
-                <label htmlFor="" className="col-sm-4 col-form-label">
-                  <span className="lb_IDCard">Province origin</span>
-                </label>
-                <div className="enterdata">
-                  <select id="originSelector">
-                    <option value="0">Province0</option>
-                    <option value="1">Province1</option>
-                  </select>
-                </div>
-              </div>
-              <div className="form-group row">
-                <label htmlFor="" className="col-sm-4 col-form-label">
-                  <span className="lb_IDCard">Province destination</span>
-                </label>
-                <div className="enterdata">
-                  <select id="destinationSelector">
-                    <option value="0">Province0</option>
-                    <option value="1">Province1</option>
-                  </select>
-                </div>
-              </div>
+        <form>
+          {!searched && (
+            <div className="Tracking-Header">
+              <h1>Track Parcel</h1>
+              <span>Enter tracking number to trace your parcel's number</span>
+              <br />
+              <br />
             </div>
-
-            <br />
-            <div className="form-group row">
-              <label htmlFor="" className="col-sm-4 col-form-label">
-                <span className="lb_IDCard">Select package</span>
+          )}
+          <div className="search-bar">
+            <input
+              className="form tracking"
+              type="text"
+              placeholder="Tracking No."
+            />
+            <button
+              type="button"
+              className="btn tracking"
+              style={{ marginTop: "7px" }}
+              onClick={handleSearch}
+            >
+              Search
+            </button>
+          </div>
+          <div className="Track-group">
+            <div className="Track-formgroup">
+              <label htmlFor="" className="sender">
+                <span>From:</span>
+                <h3>Sender name</h3>
+                <span>Provinces</span>
               </label>
-              <div className="enterdata">
-                <select id="packageSelector">
-                  <option value="0">box</option>
-                  <option value="1">seal bag</option>
-                  <option value="0">envelope</option>
-                </select>
-              </div>
-            </div>
-            <br />
-            <div className="group2">
-              <div className="form-group row">
-                <label htmlFor="" className="col-sm-4 col-form-label">
-                  <span className="lb_IDCard">Width (cm.)</span>
-                </label>
-                <div className="enterdata">
-                  <input type="width" placeholder="Parcel width" />
-                </div>
-              </div>
-              <div className="form-group row">
-                <label htmlFor="" className="col-sm-4 col-form-label">
-                  <span className="lb_IDCard">Height (cm.)</span>
-                </label>
-                <div className="enterdata">
-                  <input type="height" placeholder="Parcel height" />
-                </div>
-              </div>
-              <div className="form-group row">
-                <label htmlFor="" className="col-sm-4 col-form-label">
-                  <span className="lb_IDCard">Length (cm.)</span>
-                </label>
-                <div className="enterdata">
-                  <input type="length" placeholder="Parcel length" />
-                </div>
-              </div>
-              <div className="form-group row">
-                <label htmlFor="" className="col-sm-4 col-form-label">
-                  <span className="lb_IDCard">Weight (kg.)</span>
-                </label>
-                <div className="enterdata">
-                  <input type="weight" placeholder="Parcel weight" />
-                </div>
-              </div>
             </div>
 
-            <br />
-            <br />
-            <label htmlFor="" className="c">
-              <span>Delivery fee</span> <span className="xxx">xxx</span>{" "}
-              <span> bath</span>
-            </label>
-            <br />
-            <br />
-            <button>submit</button>
-          </form>
-        </div>
+            <div className="Track-formgroup">
+              <br />
+              <img src={arrow} alt="arrow" className="arrow-img" />
+            </div>
+            <div className="Track-formgroup">
+              <label htmlFor="" className="receiver">
+                <span>To:</span>
+                <h3>Receiver name</h3>
+                <span>Provinces</span>
+              </label>
+            </div>
+          </div>
+          <br />
+          <p>Latest status</p>
+          <br />
+          <ul className="events">
+            <li>
+              <time>
+                15:37:00
+                <br />
+                <date>2024-04-12</date>
+              </time>
+              <span>
+                <strong>Picked up</strong> branch name
+              </span>
+            </li>
+            <li>
+              <time>
+                {" "}
+                23:47:39
+                <br />
+                <date>2024-04-12</date>
+              </time>
+              <span>
+                <strong>Arrived</strong> first distribution center name
+              </span>
+            </li>
+            <li>
+              <time>
+                06:48:14
+                <br />
+                <date>2024-04-13</date>
+              </time>
+              <span>
+                <strong>Departed</strong> first distribution center name
+              </span>
+            </li>
+            <li>
+              <time>
+                16:51:16
+                <br />
+                <date>2024-04-13</date>
+              </time>
+              <span>
+                <strong>Arrived</strong> second distribution center name
+              </span>
+            </li>
+            <li>
+              <time>
+                08:52:30
+                <br />
+                <date>2024-04-14</date>
+              </time>
+              <span>
+                <strong>On delivery</strong> Courier name: tel 09xxxxxxxxx
+              </span>
+            </li>
+
+            <li>
+              <time>
+                10:02:31
+                <br />
+                <date>2024-04-14</date>
+              </time>
+              <span>
+                <strong>Delivered</strong> Thank you for using Pengu Express
+              </span>
+            </li>
+          </ul>
+        </form>
       </div>
-    </>
+    </div>
   );
 }
 
