@@ -11,7 +11,7 @@ import {
   CreateShipment,
   ShippingRates,
   PickUp,
-  Tracking,
+  Tracking,  
 } from "./components/index";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

@@ -11,6 +11,11 @@ const secret = "PenguExpress";
 app.use(cors());
 
 const mysql = require("mysql2");
+  // Parse application/json
+app.use(bodyParser.json());
+
+// Parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
 
 //Connect
 const connection = mysql.createConnection({
@@ -27,7 +32,7 @@ app.post("/register", jsonParser, function (req, res, next) {
       return;
     }
     connection.execute(
-      "INSERT INTO customer(customer_tel, customer_address, customer_name, member_status) VALUES(?,?,?,?)",
+      "INSERT INTO customer(customer_tel, addrs_detail, customer_name, member_status) VALUES(?,?,?,?)",
       [
         req.body.member_tel,
         req.body.member_addrs,
@@ -39,49 +44,21 @@ app.post("/register", jsonParser, function (req, res, next) {
           res.json({ status: "error", message: err });
           return;
         }
-        res.json({ status: "OK" });
-      }
-    );
-    connection.execute(
-      "INSERT INTO member(member_pass,member_tel) VALUES(?,?)",
-      [hash, req.body.member_tel],
-      function (err, results, fields) {
-        if (err) {
-          res.json({ status: "error", message: err });
-          return;
-        }
+        // First query successful, now execute the second query
+        connection.execute(
+          "INSERT INTO member(member_pass, member_tel) VALUES(?,?)",
+          [hash, req.body.member_tel],
+          function (err, results, fields) {
+            if (err) {
+              res.json({ status: "error", message: err });
+              return;
+            }
+            res.json({ status: "OK" });
+          }
+        );
       }
     );
   });
-});
-
-app.post("/CreateShipment", jsonParser, function (req, res, next) {
-  connection.execute(
-    "INSERT INTO customer(customer_tel, customer_address, customer_name, member_status) VALUES(?,?,?,?)",
-    [
-      req.body.member_tel,
-      req.body.member_addrs,
-      req.body.member_name,
-      req.body.member_status,
-    ],
-    function (err, results, fields) {
-      if (err) {
-        res.json({ status: "error", message: err });
-        return;
-      }
-      res.json({ status: "OK" });
-    }
-  );
-  connection.execute(
-    "INSERT INTO member(member_pass,member_tel) VALUES(?,?)",
-    [hash, req.body.member_tel],
-    function (err, results, fields) {
-      if (err) {
-        res.json({ status: "error", message: err });
-        return;
-      }
-    }
-  );
 });
 
 app.post("/login", jsonParser, function (req, res, next) {
@@ -151,14 +128,110 @@ app.post("/authen", jsonParser, function (req, res, next) {
   }
 });
 
-app.get("/Shipping", (req, res) => {
-  connection.query("SELECT name_th, code FROM provinces", (error, results, fields) => {
-    if (error) {
-      res.status(500).json({ status: "error", message: error.message });
+app.get("/pickup", (req, res) => {
+  connection.query(
+    "SELECT parcel_ID FROM parcel",
+    (error, results, fields) => {
+      if (error) {
+        res.status(500).json({ status: "error", message: error.message });
+        return;
+      }
+      res.json({ status: "ok", provinces: results });
+    }
+  );
+});
+
+app.get("/shipping", (req, res) => {
+  connection.query(
+    "SELECT name_th, code FROM provinces",
+    (error, results, fields) => {
+      if (error) {
+        res.status(500).json({ status: "error", message: error.message });
+        return;
+      }
+      res.json({ status: "ok", provinces: results });
+    }
+  );
+});
+
+app.get("/tracking/:parcelNumber", (req, res) => {
+  const parcelNumber = req.params.parcelNumber;
+  const query = `SELECT S.stamptime,S.detail,D.dc_name
+  FROM status S
+  JOIN distribute_center D 
+  ON S.dc_ID = D.dc_ID
+  WHERE S.parcel_ID='${parcelNumber}'`;
+
+  connection.query(query, [parcelNumber], (err, results) => {
+    if (err) {
+      console.error("Error fetching tracking information:", err);
+      res.status(500).json({ error: "Error fetching tracking information" });
       return;
     }
-    res.json({ status: "ok", provinces: results });
+    res.json(results);
   });
+});
+
+// Existing code...
+
+app.get("/Admin", (req, res) => {
+  const sql = "SELECT * FROM parcel";
+  connection.query(sql, (err, data) => {
+    if (err) {
+      console.error("Error fetching parcels:", err);
+      res.status(500).json({ error: "Error fetching parcels" });
+      return;
+    }
+    res.status(200).json(data);
+  });
+});
+
+app.post("/complaints", jsonParser, function(req, res, next) {
+  console.log("Received complaint request:", req.body);
+  connection.execute(
+    "INSERT INTO appeal (appeal_ID, appeal_type, appeal_des, appeal_usertel) VALUES (?, ?, ?, ?)",
+    [req.body.appeal_track, req.body.appeal_type, req.body.appeal_des, req.body.appeal_usertel],
+    function (err, results, fields) {
+      if (err) {
+        console.error("Error inserting complaint data:", err);
+        return res.status(500).json({ error: "Error inserting complaint data" });
+      }
+      console.log("Complaint data inserted successfully");
+      res.json({ message: "Complaint received successfully" });
+    }
+  );
+});
+
+app.post("/claim", jsonParser, function(req, res, next) {
+  console.log("Received complaint request:", req.body);
+  connection.execute(
+    "INSERT INTO claim (claim_ID, claim_username, claim_userSSID, claim_usertel, claim_email, claim_parcelID, claim_des, claim_bankaccount, claim_banknum, claim_bankholdername, claim_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    [req.body.claim_ID, req.body.claim_username, req.body.claim_userSSID, req.body.claim_usertel, req.body.claim_email, req.body.claim_parcelID, req.body.claim_des, req.body.claim_bankaccount, req.body.claim_banknum, req.body.claim_bankholdername, req.body.claim_type],
+    function (err, results, fields) {
+      if (err) {
+        console.error("Error inserting complaint data:", err);
+        return res.status(500).json({ error: "Error inserting complaint data" });
+      }
+      console.log("Complaint data inserted successfully");
+      res.json({ message: "Complaint received successfully" });
+    }
+  );
+});
+
+app.post("/create", jsonParser, function(req, res, next) {
+  console.log("Received complaint request:", req.body);
+  connection.execute(
+    "INSERT INTO parcel (parcel_ID, weight, type, shpping_cost, parcel_sender, parcel_reciever) VALUES (?, ?, ?, ?, ?, ?)",
+    [req.body.parcel_ID, req.body.weight, req.body.type, req.body.shipping_cost, req.body.parcel_sender, req.body.parcel_receiver],
+    function (err, results, fields) {
+      if (err) {
+        console.error("Error inserting complaint data:", err);
+        return res.status(500).json({ error: "Error inserting complaint data" });
+      }
+      console.log("Complaint data inserted successfully");
+      res.json({ message: "Complaint received successfully" });
+    }
+  );
 });
 
 app.listen(3333, function () {

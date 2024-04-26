@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 import { Navbar } from "../index";
 import "./Claim.css";
 
@@ -7,22 +8,20 @@ class Complaints extends Component {
     super(props);
     this.state = {
       step: 1,
-      trackingNo: "",
-      description: "",
-      file: [],
-      producttype: "0",
-      name: "",
-      personalID: "",
-      phoneNumber: "",
-      email: "",
-      productDescription: "",
+      claim_ID: "1",
+      claim_username: "",
+      claim_userSSID: "",
+      claim_usertel: "",
+      claim_email: "",
+      claim_type: "0",
+      claim_parcelID: "",
+      claim_des: "",
+      claim_bankaccount: "0",
       bankAccount: "0",
-      nameBank: "",
-      otherBankAccount: "",
-      bankAccountNumber:"",
-      bankNameHolder:"",
+      claim_banknum: "",
+      claim_bankholdername: "",
+
     };
-    this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange = (input, e) => {
@@ -30,33 +29,16 @@ class Complaints extends Component {
   };
 
   handleBankChange = (input, e) => {
-    if (input === "bankAccount") {
+    if (input === "claim_bankaccount") {
       const value = e.target.value;
       if (value === "6") {
-        this.setState({ [input]: value, otherBankAccount: "" });
+        this.setState({ [input]: value, bankaccount: "" });
       } else {
         this.setState({ [input]: value });
       }
     } else {
       this.setState({ [input]: e.target.value });
     }
-  };
-
-  handleFileChange = (e) => {
-    
-    const selectedFiles = e.target.files;
-    const updatedFiles = [];
-    for (let i = 0; i < selectedFiles.length; i++) {
-      updatedFiles.push(selectedFiles[i]);
-    }
-    this.setState({ files: updatedFiles });
-  };
-
-  // Function to handle submission
-  handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Form submitted:", this.state);
-
   };
 
   // Function to navigate to next step
@@ -75,21 +57,52 @@ class Complaints extends Component {
     });
   };
 
+  handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Form submitted:", this.state);
+  
+    // Fetch URL to your backend API
+    const url = "http://localhost:3333/claim"; 
+  
+    // Prepare the data object
+    const data = {
+      claim_ID: this.state.claim_ID,
+      claim_username: this.state.claim_username,
+      claim_userSSID: this.state.claim_userSSID,
+      claim_usertel: this.state.claim_usertel,
+      claim_email: this.state.claim_email,
+      claim_parcelID: this.state.claim_parcelID,
+      claim_des: this.state.claim_des,
+      claim_bankaccount: this.state.claim_bankaccount,
+      claim_banknum: this.state.claim_banknum,
+      claim_bankholdername: this.state.claim_bankholdername,
+      claim_bookbank: this.state.claim_bookbank,
+      claim_type: this.state.claim_type
+    };
+  
+    axios
+      .post(url, data)
+      .then((response) => {
+        console.log("Success:", response.data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+  
+
   render() {
     const {
       step,
-      trackingNo,
-      productDescription,
-      file,
-      name,
-      personalID,
-      phoneNumber,
-      email,
-      producttype,
-      bankAccount,
-      otherBankAccount,
-      bankAccountNumber,
-      bankNameHolder,
+      claim_username,
+      claim_userSSID,
+      claim_usertel,
+      claim_email,
+      claim_parcelID,
+      claim_des,
+      claim_bankaccount,
+      claim_banknum,
+      claim_bankholdername,
     } = this.state;
     return (
       <>
@@ -135,9 +148,9 @@ class Complaints extends Component {
                     <div className="enterdata">
                       <input
                         type="text"
-                        id="NameClaimant"
-                        value={name}
-                        onChange={(e) => this.handleChange("name", e)}
+                        id="claim_username"
+                        value={claim_username}
+                        onChange={(e) => this.handleChange("claim_username", e)}
                         placeholder="Name of Claiment"
                       />
                     </div>
@@ -153,9 +166,9 @@ class Complaints extends Component {
                     <div className="enterdata">
                       <input
                         type="text"
-                        id="PersonalID"
-                        value={personalID}
-                        onChange={(e) => this.handleChange("personalID", e)}
+                        id="claim_userSSID"
+                        value={claim_userSSID}
+                        onChange={(e) => this.handleChange("claim_userSSID", e)}
                         placeholder="Thai ID/Passport"
                       />
                     </div>
@@ -171,9 +184,9 @@ class Complaints extends Component {
                     <div className="enterdata">
                       <input
                         type="telephone"
-                        id="telephone"
-                        value={phoneNumber}
-                        onChange={(e) => this.handleChange("phoneNumber", e)}
+                        id="claim_usertel"
+                        value={claim_usertel}
+                        onChange={(e) => this.handleChange("claim_usertel", e)}
                         placeholder="Phone Number"
                       />
                     </div>
@@ -186,44 +199,11 @@ class Complaints extends Component {
                     <div className="enterdata">
                       <input
                         type="email"
-                        id="email"
-                        value={email}
-                        onChange={(e) => this.handleChange("email", e)}
+                        id="claim_email"
+                        value={claim_email}
+                        onChange={(e) => this.handleChange("claim_email", e)}
                         placeholder="Email"
                       />
-                    </div>
-                  </div>
-                  <div className="form-group-row">
-                    <label
-                      htmlFor="attachImage"
-                      className="col-sm-4 col-form-label"
-                    >
-                      <span className="lb_IDCard">
-                        Copy of ID Card / Passport (non-Thai citizen)
-                      </span>{" "}
-                      <span className="required">*</span>
-                    </label>
-                    <div className="enterdata">
-                      <div className="file-loading" data-guid="">
-                        <input
-                          type="file"
-                          accept=".png, .jpg, .pdf, .heic, .heif"
-                          name="CID_File"
-                          id="CID_File"
-                          className="krajee"
-                          data-filetype="CID"
-                          form="excludeForm"
-                          onChange={this.handleFileChange}
-                          multiple
-                        />
-                      </div>
-                      <span
-                        className="field-validation-valid"
-                        data-valmsg-for="CID_File"
-                        data-valmsg-replace="false"
-                      >
-                        This field is required.
-                      </span>
                     </div>
                   </div>
                   <br />
@@ -247,9 +227,9 @@ class Complaints extends Component {
                     <div className="enterdata">
                       <input
                         type="text"
-                        id="TrackNumber"
-                        value={trackingNo}
-                        onChange={(e) => this.handleChange("tracking", e)}
+                        id="claim_parcelID"
+                        value={claim_parcelID}
+                        onChange={(e) => this.handleChange("claim_parcelID", e)}
                         placeholder="Tracking No."
                       />
                     </div>
@@ -262,8 +242,8 @@ class Complaints extends Component {
                     <div className="enterdata">
                       <select
                         id="selector"
-                        value={producttype}
-                        onChange={(e) => this.handleChange("producttype", e)}
+                        value={this.state.claim_type} // Access claim_type from component state
+                        onChange={(e) => this.handleChange("claim_type", e)}
                       >
                         <option value="0">fruits</option>
                         <option value="1">baby products</option>
@@ -289,77 +269,11 @@ class Complaints extends Component {
                     <div className="enterdata">
                       <input
                         type="text"
-                        id="Description"
-                        value={productDescription}
-                        onChange={(e) =>
-                          this.handleChange("productDescription", e)
-                        }
+                        id="claim_des"
+                        value={claim_des}
+                        onChange={(e) => this.handleChange("claim_des", e)}
                         placeholder="Desciption."
                       />
-                    </div>
-                  </div>
-                  <div className="form-group-row">
-                    <label
-                      htmlFor="attachImage"
-                      className="col-sm-4 col-form-label"
-                    >
-                      <span className="lb_IDCard">
-                        Invoice / Receipt / Document to prove value of product
-                      </span>{" "}
-                      <span className="required">*</span>
-                    </label>
-                    <div className="enterdata">
-                      <div className="file-loading" data-guid="">
-                        <input
-                          type="file"
-                          accept=".png, .jpg, .pdf, .heic, .heif"
-                          name="CID_File"
-                          id="CID_File"
-                          className="krajee"
-                          data-filetype="CID"
-                          form="excludeForm"
-                          onChange={this.handleFileChange}
-                          multiple
-                        />
-                      </div>
-                      <span
-                        className="field-validation-valid"
-                        data-valmsg-for="CID_File"
-                        data-valmsg-replace="false"
-                      ></span>
-                    </div>
-                  </div>
-                  <div className="form-group-row">
-                    <label
-                      htmlFor="attachImage"
-                      className="col-sm-4 col-form-label"
-                    >
-                      <span className="lb_IDCard">
-                        Photos of damaged products
-                      </span>{" "}
-                      <span className="required">*</span>
-                    </label>
-                    <div className="enterdata">
-                      <div className="file-loading" data-guid="">
-                        <input
-                          type="file"
-                          accept=".png, .jpg, .pdf, .heic, .heif"
-                          name="CID_File"
-                          id="CID_File"
-                          className="krajee"
-                          data-filetype="CID"
-                          form="excludeForm"
-                          onChange={this.handleFileChange}
-                          multiple
-                        />
-                      </div>
-                      <span
-                        className="field-validation-valid"
-                        data-valmsg-for="CID_File"
-                        data-valmsg-replace="false"
-                      >
-                        *(Required if Damage)
-                      </span>
                     </div>
                   </div>
                   <br />
@@ -396,9 +310,9 @@ class Complaints extends Component {
                     <div className="enterdata">
                       <select
                         id="selector"
-                        value={bankAccount}
+                        value={claim_bankaccount}
                         onChange={(e) =>
-                          this.handleBankChange("bankAccount", e)
+                          this.handleBankChange("claim_bankaccount", e)
                         }
                       >
                         <option value="0">Kasikorn Bank</option>
@@ -410,7 +324,7 @@ class Complaints extends Component {
                         <option value="6">Others</option>
                       </select>
                     </div>
-                    {bankAccount === "6" && (
+                    {claim_bankaccount === "6" && (
                       <div className="form-group-row">
                         <label
                           htmlFor="otherBankAccount"
@@ -422,10 +336,10 @@ class Complaints extends Component {
                         <div className="enterdata">
                           <input
                             type="text"
-                            id="otherBankAccount"
-                            value={otherBankAccount}
+                            id="claim_bankaccount"
+                            value={claim_bankaccount}
                             onChange={(e) =>
-                              this.handleChange("otherBankAccount", e)
+                              this.handleChange("claim_bankaccount", e)
                             }
                             placeholder="Name of Bank"
                           />
@@ -444,9 +358,9 @@ class Complaints extends Component {
                     <div className="enterdata">
                       <input
                         type="text"
-                        id="BankAccountNumber"
-                        value={bankAccountNumber}
-                        onChange={(e) => this.handleChange("name", e)}
+                        id="claim_banknum"
+                        value={claim_banknum}
+                        onChange={(e) => this.handleChange("claim_banknum", e)}
                         placeholder="Bank Account Number"
                       />
                     </div>
@@ -456,49 +370,21 @@ class Complaints extends Component {
                       htmlFor="bankNameHolder"
                       className="col-sm-4 col-form-label"
                     >
-                      <span className="lb_IDCard">Full Name of Account Holder</span>{" "}
+                      <span className="lb_IDCard">
+                        Full Name of Account Holder
+                      </span>{" "}
                       <span className="required">*</span>
                     </label>
                     <div className="enterdata">
                       <input
                         type="text"
-                        id="BankNameHolder"
-                        value={bankNameHolder}
-                        onChange={(e) => this.handleChange("name", e)}
+                        id="claim_bankholdername"
+                        value={claim_bankholdername}
+                        onChange={(e) =>
+                          this.handleChange("claim_bankholdername", e)
+                        }
                         placeholder="Full Name of Account Holder"
                       />
-                    </div>
-                  </div>
-                  <div className="form-group-row">
-                    <label
-                      htmlFor="attachImage"
-                      className="col-sm-4 col-form-label"
-                    >
-                      <span className="lb_IDCard">
-                        Copy of Book Bank
-                      </span>{" "}
-                      <span className="required">*</span>
-                    </label>
-                    <div className="enterdata">
-                      <div className="file-loading" data-guid="">
-                        <input
-                          type="file"
-                          accept=".png, .jpg, .pdf, .heic, .heif"
-                          name="CID_File"
-                          id="CID_File"
-                          className="krajee"
-                          data-filetype="CID"
-                          form="excludeForm"
-                          onChange={this.handleFileChange}
-                          multiple
-                        />
-                      </div>
-                      <span
-                        className="field-validation-valid"
-                        data-valmsg-for="CID_File"
-                        data-valmsg-replace="false"
-                      >
-                      </span>
                     </div>
                   </div>
                   <br />
@@ -506,9 +392,9 @@ class Complaints extends Component {
                     <button type="button" onClick={this.prevStep}>
                       <h2>Previous</h2>
                     </button>
-                </div>
-                <div className="text-submit">
-                    <button type="submit">
+                  </div>
+                  <div className="text-submit">
+                    <button type="submit" onClick={this.handleSubmit}>
                       <h2>Finish</h2>
                     </button>
                   </div>

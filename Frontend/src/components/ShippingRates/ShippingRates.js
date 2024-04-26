@@ -19,7 +19,7 @@ function Estimation() {
   }, []);
 
   const fetchProvinces = () => {
-    fetch("http://localhost:3333/Shipping")
+    fetch("http://localhost:3333/shipping")
       .then((response) => response.json())
       .then((data) => {
         if (data.status === "ok") {
